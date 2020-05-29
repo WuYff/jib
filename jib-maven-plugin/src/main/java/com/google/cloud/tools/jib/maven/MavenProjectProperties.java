@@ -47,6 +47,8 @@ import com.google.cloud.tools.jib.plugins.extension.NullExtension;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Verify;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -256,7 +258,13 @@ public class MavenProjectProperties implements ProjectProperties {
         Path war = getWarArtifact();
         Path explodedWarPath = tempDirectoryProvider.newDirectory();
         ZipUtil.unzip(war, explodedWarPath);
-        return JavaContainerBuilderHelper.fromExplodedWar(javaContainerBuilder, explodedWarPath);
+        return JavaContainerBuilderHelper.fromExplodedWar(javaContainerBuilder, explodedWarPath,  session
+            .getProjects()
+            .stream()
+            .map(MavenProject::getArtifact)
+            .map(Artifact::getFile)
+            .map(File::getName)
+            .collect(Collectors.toSet()));
       }
 
       switch (containerizingMode) {
