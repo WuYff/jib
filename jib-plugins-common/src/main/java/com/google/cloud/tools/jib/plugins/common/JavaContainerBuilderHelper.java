@@ -94,6 +94,7 @@ public class JavaContainerBuilderHelper {
     return builder.build();
   }
 
+  // CS304 Issue link: https://github.com/GoogleContainerTools/jib/issues/2450
   /**
    * Constructs a new {@link JibContainerBuilder} for a WAR project.
    *

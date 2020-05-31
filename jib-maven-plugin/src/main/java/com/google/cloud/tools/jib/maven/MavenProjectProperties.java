@@ -248,6 +248,15 @@ public class MavenProjectProperties implements ProjectProperties {
     consoleLogger = consoleLoggerBuilder.build();
   }
 
+  /**
+   * Constructs a new {@link JibContainerBuilder} for Maven projects.
+   *
+   * @param javaContainerBuilder Java container builder to start with
+   * @param containerizingMode Containerizing mode to use
+   * @return {@link JibContainerBuilder} containing the layers for the Maven project
+   * @throws IOException Obtaining project build output files failed
+   * @throws IllegalStateException unknown containerizing mode
+   */
   @Override
   public JibContainerBuilder createJibContainerBuilder(
       JavaContainerBuilder javaContainerBuilder, ContainerizingMode containerizingMode)
@@ -257,6 +266,7 @@ public class MavenProjectProperties implements ProjectProperties {
         Path war = getWarArtifact();
         Path explodedWarPath = tempDirectoryProvider.newDirectory();
         ZipUtil.unzip(war, explodedWarPath);
+        // CS304 Issue link: https://github.com/GoogleContainerTools/jib/issues/2450
         return JavaContainerBuilderHelper.fromExplodedWar(
             javaContainerBuilder,
             explodedWarPath,

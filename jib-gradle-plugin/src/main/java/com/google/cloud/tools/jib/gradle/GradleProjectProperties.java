@@ -182,10 +182,20 @@ public class GradleProjectProperties implements ProjectProperties {
     consoleLogger = consoleLoggerBuilder.build();
   }
 
+  /**
+   * Constructs a new {@link JibContainerBuilder} for Gradle projects.
+   *
+   * @param javaContainerBuilder Java container builder to start with
+   * @param containerizingMode Containerizing mode to use
+   * @return {@link JibContainerBuilder} containing the layers for the Gradle project
+   * @throws IllegalStateException unknown containerizing mode
+   * @throws GradleException Obtaining project build output files failed
+   */
   @Override
   public JibContainerBuilder createJibContainerBuilder(
       JavaContainerBuilder javaContainerBuilder, ContainerizingMode containerizingMode) {
     try {
+      // CS304 Issue link: https://github.com/GoogleContainerTools/jib/issues/2450
       FileCollection projectDependencies =
           project.files(
               project

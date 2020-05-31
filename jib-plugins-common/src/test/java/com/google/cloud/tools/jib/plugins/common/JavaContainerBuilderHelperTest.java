@@ -182,6 +182,7 @@ public class JavaContainerBuilderHelperTest {
     }
   }
 
+  /** Test the fromExplodedWar method for WAR project. */
   @Test
   public void testFromExplodedWar()
       throws URISyntaxException, IOException, InvalidImageReferenceException,
@@ -219,7 +220,7 @@ public class JavaContainerBuilderHelperTest {
         getLayerConfigurationsByName(buildContext, LayerType.SNAPSHOT_DEPENDENCIES.getName());
     List<FileEntriesLayer> projectDependenciesLayerConfigurations =
         getLayerConfigurationsByName(buildContext, LayerType.PROJECT_DEPENDENCIES.getName());
-
+    // CS304 (manually written) Issue link: https://github.com/GoogleContainerTools/jib/issues/2450
     assertSourcePathsUnordered(
         Collections.singletonList(
             temporaryExplodedWar.resolve("WEB-INF/lib/dependencyA-1.0.0.jar")),
